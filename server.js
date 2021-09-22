@@ -4,9 +4,14 @@ const usersRoutes = require('./routes/api/users')
 const authRoutes = require('./routes/api/auth')
 const profileRoutes = require('./routes/api/profile')
 const postRoutes = require('./routes/api/post')
-
+const dotenv = require('dotenv')
 
 const app = express()
+
+app.use(express.json({extended: false}))
+
+require("dotenv").config();
+
 
 mongoDb()
 
