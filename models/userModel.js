@@ -8,18 +8,24 @@ const userSchame = Mongoose.Schema({
     },
     email :{
         type:String,
-        required: true
+        required: true,
+        unique: true 
     },
     password:{
         type: String,
         required: true
 
     },
-    isAdmin:{
-        type: Boolean,
-        required: false,
-        default: false
+
+    avater: {
+        type: String
+    },
+    date :{
+        type:Date,
+
     }
+   
+
 }, {
     timestamps: true
 })

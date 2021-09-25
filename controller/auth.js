@@ -48,4 +48,8 @@ const RegisterUser = async (req, res)  =>  {
     }
 }
 
-module.exports = RegisterUser
+module.exports = {
+    RegisterUser,
+    authlogin
+
+}
