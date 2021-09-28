@@ -7,6 +7,7 @@ const connectDB = async () => {
         const connect = await mongoose.connect("mongodb+srv://new_user:panzer123@mern.p3aer.mongodb.net/test?retryWrites=true&w=majority", {
             useUnifiedTopology: true,
             useNewUrlParser:true,
+            
         })
         
         console.log(`new datebase is running at ${connect.connection.host}`)

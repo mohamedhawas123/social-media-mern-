@@ -39,7 +39,7 @@ const postProfile = asyncHandler(async(req, res) => {
     } = req.body
 
     const profileFields = {};
-    profileFields.user = req.user.name;
+    profileFields.user = req.user.id;
     if(company) profileFields.company = company
     if(website) profileFields.website = website
     if(location) profileFields.location = location
@@ -60,6 +60,7 @@ const postProfile = asyncHandler(async(req, res) => {
     try {
 
         let profile = await Profile.findOne({user: req.user.id});
+        console.log(profile)
        
         if(profile) {
             profile = Profile.findOneAndUpdate(
@@ -75,13 +76,45 @@ const postProfile = asyncHandler(async(req, res) => {
         res.json(profile)
 
     }catch(e) {
-        console.log(e)
+        console.log(e.message)
         res.status(500).send("Server Error")
     }
 
 })
 
+
+const getProfiles = asyncHandler(async(req, res) => {
+    try {
+        const profiles = await Profile.find({}).populate('user', ['name', 'avatar']);
+        res.json(profiles)
+    }catch(e) {
+        console.log(e)
+        res.status(5000).send("Dunno")
+    }
+})
+
+
+const getProfilebyid = asyncHandler(async(req, res) => {
+    try {
+        const profile =  await Profile.findOne({user: req.params.user_id}).populate('user', ['name', 'avatar'])
+        if(!profile) {
+            res.status(400).json({msg: "theres no profile for this user"})
+        }
+
+        res.json(profile)
+    }catch(e) {
+        console.log(e)
+        if(e.kind == 'ObjectedId') {
+            res.status(400).json({msg: "theres no profile for this user"})
+
+        }
+    }
+})
+
 module.exports = {
     getProfile,
-    postProfile
+    postProfile,
+    getProfiles,
+    getProfilebyid
+
 }
