@@ -1,6 +1,8 @@
 const asyncHandler = require('express-async-handler')
 const Profile=  require('../models/profile')
 const {check, validationResult} = require('express-validator')
+const userModel = require('../models/userModel')
+
 
 
 
@@ -111,10 +113,138 @@ const getProfilebyid = asyncHandler(async(req, res) => {
     }
 })
 
+
+const deleteProfile = asyncHandler(async(req, res) => {
+    try {
+         await Profile.findByIdAndDelete({user: req.user.id})
+         await userModel.findByIdAndDelete({_id: req.user.id})
+        res.json({msg: 'User deleted'})
+
+
+    }catch(e) {
+        res.status(500).send("Server Error ")
+    }
+})
+
+
+const AddExperience = asyncHandler(async(req, res) => {
+    const {
+        title,
+        company,
+        location,
+        from,
+        to,
+        current,
+        descr
+    } = req.body
+
+    const newExp = {
+        title,
+        company,
+        location,
+        from,
+        to,
+        current,
+        descr
+    }
+    try {
+
+        const profile = await Profile.findOne({user: req.user.id});
+
+        profile.experience.unshift(newExp)
+        await profile.save()
+        res.json(profile)
+
+    }catch(err) {
+        console.error(err.message)
+        res.status(500).send("Server Error")
+    }
+})
+
+
+const deleteExperience = asyncHandler(async(req, res) => {
+    try {
+        
+        const profile=  await Profile.findOne({user: req.user.id})
+
+        const removeIndex = profile.experience.map(item => item.id).indexOf(req.params.experice_id)
+
+        profile.experience.splice(removeIndex, 1)
+
+        await profile.save()
+
+
+    }catch(err) {
+        console.error(err.message)
+        res.status(500).send("Server Error")
+    }
+})
+
+
+const AddEducation = asyncHandler(async(req, res) => {
+    const {
+        school,
+        degree,
+        fieldOfStudey,
+        from,
+        to,
+        current,
+        descr
+    } = req.body
+
+    const newExp = {
+        school,
+        degree,
+        fieldOfStudey,
+        from,
+        to,
+        current,
+        descr
+    }
+    try {
+
+        const profile = await Profile.findOne({user: req.user.id});
+
+        profile.education.unshift(newExp)
+        await profile.save()
+        res.json(profile)
+
+    }catch(err) {
+        console.error(err.message)
+        res.status(500).send("Server Error")
+    }
+})
+
+
+const deleteeducation = asyncHandler(async(req, res) => {
+    try {
+        
+        const profile=  await Profile.findOne({user: req.user.id})
+
+        const removeIndex = profile.education.map(item => item.id).indexOf(req.params.education_id)
+
+        profile.education.splice(removeIndex, 1)
+
+        await profile.save()
+
+
+    }catch(err) {
+        console.error(err.message)
+        res.status(500).send("Server Error")
+    }
+})
+
+
+
 module.exports = {
     getProfile,
     postProfile,
     getProfiles,
-    getProfilebyid
+    getProfilebyid,
+    deleteProfile,
+    AddExperience,
+    deleteExperience,
+    AddEducation,
+    deleteeducation
 
 }
