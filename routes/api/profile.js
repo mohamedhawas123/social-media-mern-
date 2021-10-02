@@ -18,6 +18,7 @@ router.route("/user/addExperience").put(protect, Profile.AddExperience)
 router.route("/user/experice/:experice_id/delete").delete(protect, Profile.deleteExperience)
 router.route("/user/addeducation").put(protect, Profile.AddEducation)
 router.route("/user/education/:education_id/delete").delete(protect, Profile.deleteeducation)
+router.route("/github/:username").get(Profile.gethubUsername)
 
 
 

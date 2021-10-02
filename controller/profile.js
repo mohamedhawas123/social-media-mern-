@@ -2,7 +2,7 @@ const asyncHandler = require('express-async-handler')
 const Profile=  require('../models/profile')
 const {check, validationResult} = require('express-validator')
 const userModel = require('../models/userModel')
-
+const request = require('request')
 
 
 
@@ -235,6 +235,27 @@ const deleteeducation = asyncHandler(async(req, res) => {
 })
 
 
+const gethubUsername = asyncHandler(async(req, res) => {
+    const options = {
+        uri: `https://api.github.com/users/${req.params.username}/repos?per_page=5&
+        sort=created:asc&client_id=cb3955a74352d0811ad1&client_secret=05efc9684bc09528451eebdb349f0c4096ba179a`,
+        method: 'GET',
+        headers: { 'user-agent': 'node.js' }
+
+    };
+
+    request(options, (error, response, body) => {
+        if(error) console.error(error);
+
+        if(response.statusCode !==200) {
+            return res.status(404).json({msg: 'No Github profile found'})
+        }
+
+        res.json(JSON.parse(body))
+
+    })
+})
+
 
 module.exports = {
     getProfile,
@@ -245,6 +266,7 @@ module.exports = {
     AddExperience,
     deleteExperience,
     AddEducation,
-    deleteeducation
+    deleteeducation,
+    gethubUsername
 
 }
