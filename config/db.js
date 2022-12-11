@@ -1,0 +1,26 @@
+const mongoose =  require('mongoose')
+const config = require('config')
+
+const connectDB = async () => {
+
+
+
+    try {
+        
+        const connect = await mongoose.connect("mongodb+srv://new_user:panzer123@cluster0.nmvts.mongodb.net/?retryWrites=true&w=majority", {
+            useUnifiedTopology: true,
+            useNewUrlParser:true,
+            
+        })
+
+        
+        
+        console.log(`new datebase is running at ${connect.connection.host}`)
+    }catch(e) {
+        console.log("got error")
+        console.log(e)
+        process.exit(1)
+    }
+}
+
+module.exports = connectDB
