@@ -5,13 +5,16 @@
   "main": "index.js",
   "scripts": {
     "start": "node server",
-    "server": "nodemon server"
+    "server": "nodemon server",
+    "frontend": "npm start --prefix frontend",
+    "dev": "concurrrently \"npm run server\" \"npm run frontend\""
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "config": "^3.3.6",
+    "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",

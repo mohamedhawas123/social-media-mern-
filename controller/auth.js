@@ -23,6 +23,8 @@ const authlogin = asyncHandler(async(req, res) => {
 })
 
 const RegisterUser = async (req, res)  =>  {
+    res.header( "Access-Control-Allow-Origin" );
+
     const {name, email, password} = req.body
     const user = await userModel.findOne({email})
     if(user) {

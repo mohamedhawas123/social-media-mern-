@@ -5,21 +5,25 @@ const authRoutes = require('./routes/api/auth')
 const profileRoutes = require('./routes/api/profile')
 const postRoutes = require('./routes/api/post')
 const dotenv = require('dotenv')
+var cors = require('cors');
 
 const app = express()
 
 app.use(express.json({extended: false}))
 
-require("dotenv").config();
+dotenv.config();
 
 
 mongoDb()
+
+app.use(cors());
+
+
 
 app.use("/",usersRoutes)
 app.use("/profile",profileRoutes)
 app.use("/auth",authRoutes)
 app.use("/post",postRoutes)
-
 
 
 const PORT = 3000 || process.env.PORT
