@@ -1,11 +1,17 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {UserLogin} from '../../store/action/userAuth'
+import { useNavigate } from 'react-router-dom'
+
+
 
 const Login = ()=> {
 
+  const navigate = useNavigate()
+  
   const dispatch = useDispatch()
+
 
     const [formData, setFormData] = useState({
         
@@ -14,16 +20,27 @@ const Login = ()=> {
        
     });
 
+    const user = useSelector(state => state.user.userInfo)
+
     const onchange = e => {
         setFormData({...formData, [e.target.name]: e.target.value})
     }
 
     const {email, password} = formData;
 
+    useEffect( ()=> {
+
+      if(user.email) {
+        navigate('/dashboard')
+      }
+
+     
+
+    }, [navigate, user] )
+
     const onsubmit = async (e) => {
         e.preventDefault()
-          console.log('success')
-        
+          console.log(user)          
           dispatch(UserLogin(email, password))
 
     }

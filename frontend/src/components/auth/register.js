@@ -1,12 +1,18 @@
-import React, {useState} from 'react'
-import {useDispatch} from 'react-redux'
+import React, {useEffect, useState} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {UserRegis} from '../../store/action/userAuth'
+import { useNavigate } from 'react-router-dom'
+
 
 const Register = ()=> {
 
 
   const dispatch = useDispatch()
+
+  const user = useSelector(state => state.user.userInfo)
+
+
 
     const [formData, setFormData] = useState({
         name: '',
@@ -30,6 +36,17 @@ const Register = ()=> {
           dispatch(UserRegis(name, email, password))
         }
     }
+    const navigate = useNavigate()
+
+    useEffect( ()=> {
+
+      if(user.email) {
+        navigate('/')
+      }
+
+     
+
+    }, [navigate, user] )
 
     return (
         <React.Fragment>

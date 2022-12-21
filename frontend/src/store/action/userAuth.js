@@ -20,12 +20,12 @@ export const UserRegis = (name, email, password) =>  async(dispatch, getState)=>
             name: name,
             email: email,
             password: password
-        })
+        }, config)
 
         dispatch({
             type: actionType.USER_SIGNUP_SUCCESS,
             payload: data
-        }, config)
+        })
 
     }catch(e) {
         dispatch({
@@ -69,5 +69,13 @@ export const UserLogin = (email, password) =>  async(dispatch, getState)=> {
         })
     }
 
+
+}
+
+export const logout = () => async (dispatch, getState) => {
+
+    dispatch ({
+        type: actionType.USER_LOGOUT
+    })
 
 }
